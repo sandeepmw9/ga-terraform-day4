@@ -36,3 +36,7 @@ variable "instance_type" {
 variable "instance_name" {
   default = "lab4-instance"
 }
+
+variable "secet_manager_name" {
+  default = "secmgr-demo"
+}

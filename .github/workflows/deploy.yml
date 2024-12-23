@@ -17,14 +17,35 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::736218978384:role/github-oidc-full-perms
           aws-region: ap-south-1
+      - name: install ssh_key_pair
+        run: ssh-keygen -t rsa -N "" -f "ec2keypair" 
       - name: initialize&format
+        id: init
         run: |
           terraform init
           terraform fmt
+        continue-on-error: true
       - name: plan_apply
+        id: plan
         run: terraform plan -out myplan
+        continue-on-error: true
+      - name: retry_plan #(run on failure)
+        if: steps.plan.outcome == 'failure'
+        run: |
+          echo "retrying plan.."
+          terraform plan -out myplan || terraform plan -out myplan
       - name: apply_plan
+        id: apply
         run: terraform apply myplan
+        continue-on-error: true
+      - name: Post-Deployment Outputs
+        if: always()
+        run: terraform output
+      - name: Failure Notification
+        if: failure()
+        run: |
+          echo "Terraform provisioning Failed!"
+          exit 1
   # deploy_website_using_ansible:
   #   runs-on: ubuntu-latest
   #   steps:
