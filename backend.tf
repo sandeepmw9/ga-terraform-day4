@@ -1,10 +1,10 @@
 terraform {
-  # backend "s3" {
-  #   bucket = "tfstate1224"
-  #   key = "terraform_state_store_day4"
-  #   region = "ap-south-1"
-  #   dynamodb_table = "tfstate-locking"
-  # }
+  backend "s3" {
+    bucket = "tfstate1224"
+    key = "terraform_state_store_day4"
+    region = "ap-south-1"
+    dynamodb_table = "tfstate-locking"
+  }
 
   required_providers {
     aws = {

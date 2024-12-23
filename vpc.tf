@@ -4,7 +4,7 @@ data "aws_region" "current" {}
 resource "aws_vpc" "lab4_vpc" {
   cidr_block = var.cidr
   tags = {
-    Name      = "${var.vpc_name}-${terraform.workspace}"
+    Name      = "${var.vpc_name}-${random_string.suffix.id}-${terraform.workspace}"
     terraform = true
   }
 }

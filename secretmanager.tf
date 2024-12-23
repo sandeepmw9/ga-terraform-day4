@@ -1,5 +1,5 @@
 resource "aws_secretsmanager_secret" "secet_manager" {
-  name = "${var.secet_manager_name}-${terraform.workspace}"
+  name = "${var.secet_manager_name}-${random_string.suffix.id}-${terraform.workspace}"
 }
 
 
